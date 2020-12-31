@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./styles/main.css" rel="stylesheet" />
+    <script src="https://preview.babylonjs.com/gltf_validator.js"></script>
+    <script src="https://preview.babylonjs.com/babylon.js"></script>
+    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.js"></script>
+    <title>HAPPY BIRTHDAY SIS</title>
+</head>
+
+<body>
+    <h1>HAPPY BIRTHDAY LOVELY SIS <br> FROM KADASH</h1>
+    <canvas id="renderCanvas">
+
+    </canvas>
+    <script>
+
+
+
+        var canvas = document.getElementById("renderCanvas");
+           
+             // engin is supported
+        if(BABYLON.Engine.isSupported()){
+            var engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
+
+
+        var createScene = function () {
+            // Create scene
+            var scene = new BABYLON.Scene(engine);
+
+            // Default Environment
+            var environment = scene.createDefaultEnvironment({
+                createSkybox: true,
+                createGround: true,
+                skyboxSize:150,
+                groundSize:150,
+                groundColor: BABYLON.Color3.Black(),
+                skyboxColor: BABYLON.Color3.Teal(),
+                enableGroundShadow: true,
+                groundYBias: 1
+            });
+
+            // Camera
+
+     var camera = new BABYLON.ArcRotateCamera("Camera", -Math.PI / 2,  Math.PI / 2, 1, BABYLON.Vector3.Zero(), scene);
+     camera.attachControl(canvas, true);
+    
+     
+     camera.setPosition(new BABYLON.Vector3(20, 30, 100));
+    //  camera.lowerRadiusLimit=40;
+    //  camera.upperRadiusLimit=45;
+    //  camera.wheelPrecision=.1;
+    //  camera.angularSensibilityX=camera.angularSensibilityY=2000;
+    //  camera.panningSensibility=5;
+     
+    camera.useBouncingBehavior = true;
+    camera.useBouncingBehavior.transitionDuration = 450; //The transition time of the rebound effect
+    camera.useBouncingBehavior.lowerRadiusTransitionRange = .5; //The range of the rebound when the closest distance is reached. The default value is 2
+    camera.useBouncingBehavior.upperRadiusTransitionRange = -20; //Resilience distance when reaching the farthest distance, the default value is -2
+//  camera.useBouncingBehavior.autoTransitionRange = true; // Whether to automatically define the lowerRadiusTransitionRange and upperRadiusTransitionRange values, the default value is false. The transition range is set to 5% of the diagonal box in world space
+    camera.useAutoRotationBehavior = true;
+    //camera.autoRotationBehavior.idleRotationSpeed ​​= 1; //Automatic rotation speed
+    //camera.autoRotationBehavior.idleRotationWaitTime = 1000; //How many times after the user interaction turns on automatic rotation (milliseconds)
+    //camera.autoRotationBehavior.idleRotationSpinupTime = 1000; //Time (milliseconds) from the start of automatic rotation to the set rotation speed
+    //camera.autoRotationBehavior.zoomStopsAnimation = true; //Set whether the zoom will stop auto-rotating
+    camera.useFramingBehavior = true;
+ 
+   // Limit camera radius
+    camera.lowerRadiusLimit = 10;
+    camera.upperRadiusLimit = 35;
+
+    // Limit camera rotation
+    
+    camera.lowerAlphaLimit = -Math.PI / 2;
+    // rotate left 
+    camera.upperAlphaLimit = Math.PI / 0;
+    // rotate upper
+    camera.lowerBetaLimit = Math.PI / 4;
+    camera.upperBetaLimit = Math.PI / 2;
+
+
+
+    // var camerasBorderFunction = function () {        //Angle       
+    //      if (camera.beta < 0.1) camera.beta = 0.1; 
+    //      else if (camera.beta > (Math.PI / 2) * 0.9) camera.beta = (Math.PI / 2) * 0.9; 
+    //             //Zoom        
+    //     if (camera.radius > 50) camera.radius = 50;     
+    //    if (camera.radius < 30) camera.radius = 30;};
+    // scene.registerBeforeRender(camerasBorderFunction);
+ 
+
+
+ 
+ 
+
+
+            // Create Sky Material
+            // var skyMaterial = new BABYLON.StandardMaterial("skybox", scene);
+            //     skyMaterial.backFaceCulling = false;
+            //     skyMaterial.reflectionTexture = new BABYLON.CubeTexture("textures/skybox", scene);
+            //     skyMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+            //     skyMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+            //     skyMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+            // var skybox = BABYLON.MeshBuilder.CreateBox("skyBox", {size:1000.0}, scene);
+            //    skybox.material = skyMaterial;
+
+            // Enable VR
+            var vrHelper = scene.createDefaultVRExperience({
+                createDeviceOrientationCamera: false
+            });
+            vrHelper.enableTeleportation({
+                floorMeshes: [environment.ground]
+            })
+            var building = BABYLON.SceneLoader.Append("./", "hbdsis.glb", scene,);
+      
+           
+            return scene;
+        };
+
+        var engine = new BABYLON.Engine(canvas, true, {
+            preserveDrawingBuffer: true,
+            stencil: true
+        });
+        var scene = createScene();
+        engine.runRenderLoop(function () {
+            if (scene) {
+                scene.render();
+            }
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+
+     
+
+    }
+    else{
+        alert('ENGIN NOT SUPPORTED!!!')
+    }
+    </script>
+
+</body>
+
+</html>
